@@ -1,30 +1,27 @@
-# React + TypeScript + Vite
+# A Minimal Example To Reproduce the issue with monaco-sql-languages in Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Dev: cheat sheet
++ PackageManager: `npm`
++ Install: `npm i`
++ Run: `npm run dev`
 
-Currently, two official plugins are available:
+## Details of the problem
+### Importing the worker file directly from monaco-sql-languages gets an error：
+```typescript
+import FlinkSQLWorker from 'monaco-sql-languages/out/esm/flinksql/flinksql.worker?worker'; 
+```
+![image](https://github.com/HaydenOrz/monaco-sql-languages-vite/assets/58289241/8aa4f12d-4fdf-455b-90e4-166f636a661b)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+### create a new file and import the worker file internally, it will work well：
+src/workerTransform/flinksql.worker.ts
+```typescript
+import 'monaco-sql-languages/out/esm/flinksql/flinksql.worker';
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+use the worker
+```typescript
+import FlinkSQLWorker from './workerTransform/flinksql.worker?worker';
+```
+
+![image](https://github.com/HaydenOrz/monaco-sql-languages-vite/assets/58289241/2aaded6d-1bba-430e-8b4a-20f5a8a51a9f)
