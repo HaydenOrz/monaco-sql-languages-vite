@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    include: ["dt-sql-parser"]
+    // include: ["dt-sql-parser"] // Maybe it's unnecessary
   },
   define: {
     'process.env': process.env
