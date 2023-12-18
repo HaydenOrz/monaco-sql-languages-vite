@@ -33,3 +33,5 @@ npm run build
 
 npm run preview
 ```
+
+![image](https://github.com/HaydenOrz/monaco-sql-languages-vite/assets/58289241/17fc5f5b-9651-4fa1-b3e6-5a1a1be4c648)
